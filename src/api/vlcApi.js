@@ -36,7 +36,7 @@ export const getStatus = async setStatus => {
       setStatus(parsedData.root);
     }
 
-    console.log('Dados JSON analisados:', response.data);
+    // console.log('Dados JSON analisados:', response.data);
     setStatus(response.data);
   } catch (error) {
     console.error('Erro ao obter status do VLC:', error.message);

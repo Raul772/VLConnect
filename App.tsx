@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import ThemedStatusBar from './src/components/StatusBar/ThemedStatusBar';
-import {ThemeProvider} from './src/contexts/ThemeContext';
-import HomeScreen from './src/screens/HomeScreen';
+import HomeScreen from './src/features/player/screens/HomeScreen';
+import ThemedStatusBar from './src/features/settings/components/StatusBar/ThemedStatusBar';
+import {ThemeProvider} from './src/shared/theme/ThemeProvider';
 
 function App(): React.JSX.Element {
   return (
