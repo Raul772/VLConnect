@@ -1,17 +1,39 @@
 import {AppTheme} from '@/shared/theme';
 import {useTheme} from '@/shared/theme/ThemeProvider';
+import {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {usePlayerStore} from '../store/playerStore';
+import {getAlbumCover} from '../utils/fetchAlbumCover';
 
 export const NowPlayingInfo = () => {
   const {title, artist, album, artWorkUrl} = usePlayerStore();
   const {theme} = useTheme();
   const styles = createStyles(theme);
 
+  const [artWorkExternal, setArtWorkExternal] = useState<string>('');
+
+  useEffect(() => {
+    async function loadArtWork() {
+      setArtWorkExternal(await getAlbumCover(artist, album));
+    }
+    loadArtWork();
+  }, [album, artist, setArtWorkExternal]);
+
   return (
     <View style={styles.container}>
-      {artWorkUrl && (
+      {artWorkUrl && artWorkExternal ? (
         <Image
+          key={artWorkExternal || artWorkUrl}
+          source={{
+            uri: artWorkExternal,
+            cache: 'force-cache',
+          }}
+          style={styles.artwork}
+          onError={e => console.warn(e.nativeEvent.error)}
+        />
+      ) : (
+        <Image
+          key={artWorkExternal || artWorkUrl}
           source={require('@/../assets/images/vlc_artwork.png')}
           style={styles.artwork}
           onError={e => console.warn(e.nativeEvent.error)}

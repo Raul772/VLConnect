@@ -11,7 +11,6 @@ export const usecases = {
   togglePlayPause: new TogglePlayPause(playerService),
   nextTrack: new NextTrack(playerService),
   previousTrack: new PreviousTrack(playerService),
-  updateAlbumCover: playerService.getAlbumCover,
 };
 
 export {playerService};

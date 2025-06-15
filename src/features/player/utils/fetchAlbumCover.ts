@@ -21,8 +21,6 @@ async function getAlbumMBID(
 
     const firstMatch = response.data.releases?.[0];
 
-    console.log('O MBID é: ', firstMatch?.id);
-
     return firstMatch?.id || null;
   } catch (error) {
     console.error('Error getting MBID for track:', error);
@@ -44,23 +42,25 @@ export async function getAlbumCover(
   artist: string,
   album: string,
 ): Promise<string> {
+  // Verificar se o album possui um MBID
   const mbid = await getAlbumMBID(artist, album);
   if (!mbid) {
     return '';
   }
 
   try {
-    const response = await axios.get(
-      `https://coverartarchive.org/release/${mbid}`,
-    );
+    const meta = await axios.get(`https://coverartarchive.org/release/${mbid}`);
 
-    if (response.data?.images?.length > 0) {
-      console.log('tem imagem');
-
-      return getCoverUrlFromMBID(mbid);
-    } else {
+    if (meta.data?.images?.length === 0) {
       return '';
     }
+
+    const imageMeta = await axios.head(getCoverUrlFromMBID(mbid), {
+      maxRedirects: 5,
+      validateStatus: status => status >= 200 && status < 400,
+    });
+    const finalURL = imageMeta.request?.responseURL || '';
+    return finalURL;
   } catch (error) {
     console.warn('No image available for the album:', error);
     return '';

@@ -2,8 +2,7 @@ import {playerService, usecases} from '@/app/di';
 import {usePlayerStore} from '../store/playerStore';
 
 export const usePlayerController = () => {
-  const {togglePlayPause, nextTrack, previousTrack, updateAlbumCover} =
-    usecases;
+  const {togglePlayPause, nextTrack, previousTrack} = usecases;
 
   const setMeta = usePlayerStore(s => s.setMeta);
   const setVolume = usePlayerStore(s => s.setVolume);
@@ -11,7 +10,7 @@ export const usePlayerController = () => {
   const handlePlayPause = async () => {
     try {
       await togglePlayPause.execute();
-      scheduleStatusSync();
+      syncStatus();
     } catch (e) {
       console.error('Error playing/pausing:', e);
     }
@@ -20,7 +19,7 @@ export const usePlayerController = () => {
   const handleNext = async () => {
     try {
       await nextTrack.execute();
-      scheduleStatusSync();
+      syncStatus();
     } catch (e) {
       console.error('Error skipping track:', e);
     }
@@ -29,20 +28,10 @@ export const usePlayerController = () => {
   const handlePrevious = async () => {
     try {
       await previousTrack.execute();
-      scheduleStatusSync();
+      syncStatus();
     } catch (e) {
       console.error('Erro backing track:', e);
     }
-  };
-
-  const getAlbumCover = async () => {
-    return await updateAlbumCover();
-  };
-
-  const scheduleStatusSync = () => {
-    setTimeout(() => {
-      syncStatus();
-    }, 1000);
   };
 
   const syncStatus = async () => {
@@ -64,6 +53,5 @@ export const usePlayerController = () => {
     handleNext,
     handlePrevious,
     syncStatus,
-    getAlbumCover,
   };
 };
