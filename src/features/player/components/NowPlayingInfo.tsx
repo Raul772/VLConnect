@@ -39,7 +39,9 @@ export const NowPlayingInfo = () => {
           onError={e => console.warn(e.nativeEvent.error)}
         />
       )}
-      <Text style={styles.title}>{title || 'Falha na conexão'}</Text>
+      <Text style={styles.title}>
+        {title || 'Falha na conexão'}
+      </Text>
       {album ? <Text style={styles.album}>{album}</Text> : null}
       <Text style={styles.artist}>{artist || 'Verifique conexão com VLC'}</Text>
     </View>

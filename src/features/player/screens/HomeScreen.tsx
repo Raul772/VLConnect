@@ -3,6 +3,7 @@ import {useTheme} from '@/shared/theme/ThemeProvider';
 import {StyleSheet, Text, View} from 'react-native';
 import {NowPlayingInfo} from '../components/NowPlayingInfo';
 import {PlayerControls} from '../components/PlayerControls';
+import { VolumeControl } from '../components/VolumeControl';
 
 const HomeScreen = () => {
   const {theme} = useTheme();
@@ -14,6 +15,7 @@ const HomeScreen = () => {
       <View style={styles.infoContainer}>
         <NowPlayingInfo />
         <PlayerControls />
+        <VolumeControl />
       </View>
     </View>
   );
