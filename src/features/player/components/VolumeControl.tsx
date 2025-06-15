@@ -10,7 +10,8 @@ export const VolumeControl = () => {
   const {theme} = useTheme();
   const volume = usePlayerStore(s => s.volume);
   const [localVolume, setLocalVolume] = useState<number>(volume ?? 0);
-  const [isLoud, setIsLoud] = useState<boolean>(localVolume > 100);
+
+  const isLoud = localVolume > 100;
 
   const {handleVolumeChange} = usePlayerController();
   const styles = createStyles(theme, isLoud);
@@ -19,9 +20,6 @@ export const VolumeControl = () => {
     setLocalVolume(volume);
   }, [volume]);
 
-  useEffect(() => {
-    setIsLoud(localVolume > 100);
-  }, [localVolume]);
 
   return (
     <View style={styles.container}>
