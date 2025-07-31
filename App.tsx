@@ -1,8 +1,9 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import HomeScreen from './src/features/player/screens/HomeScreen';
-import ThemedStatusBar from './src/features/settings/components/StatusBar/ThemedStatusBar';
+// import {StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import ThemedStatusBar from './src/shared/components/StatusBar/ThemedStatusBar';
+import {RootNavigation} from './src/shared/navigation/index';
 import {ThemeProvider} from './src/shared/theme/ThemeProvider';
 
 function App(): React.JSX.Element {
@@ -10,9 +11,9 @@ function App(): React.JSX.Element {
     <ThemeProvider>
       <SafeAreaProvider>
         <ThemedStatusBar />
-        <SafeAreaView style={styles.container}>
-          <HomeScreen />
-        </SafeAreaView>
+        <NavigationContainer>
+          <RootNavigation />
+        </NavigationContainer>
       </SafeAreaProvider>
     </ThemeProvider>
   );
@@ -20,8 +21,8 @@ function App(): React.JSX.Element {
 
 export default App;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//   },
+// });

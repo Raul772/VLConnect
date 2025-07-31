@@ -1,0 +1,26 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    ".gitignore": false,
+    "package.json": true,
+    "package-lock.json": true,
+    "jest.config.js": true,
+    "metro.config.js": true,
+    "Gemfile": true,
+    "react-native.config.js": true,
+    "README.md": true,
+    "tsconfig.json": true,
+    "babel.config.js": true,
+    ".watchmanconfig": true,
+    ".prettierrc.js": true,
+    ".eslintrc.js": true,
+    "node_modules": true,
+    "android": true,
+    ".bundle": true,
+    "__tests__": true
+  }
+}

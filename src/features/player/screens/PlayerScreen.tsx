@@ -3,9 +3,9 @@ import {useTheme} from '@/shared/theme/ThemeProvider';
 import {StyleSheet, Text, View} from 'react-native';
 import {NowPlayingInfo} from '../components/NowPlayingInfo';
 import {PlayerControls} from '../components/PlayerControls';
-import { VolumeControl } from '../components/VolumeControl';
+import {VolumeControl} from '../components/VolumeControl';
 
-const HomeScreen = () => {
+const PlayerScreen = () => {
   const {theme} = useTheme();
   const styles = createStyles(theme);
 
@@ -21,7 +21,7 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default PlayerScreen;
 
 const createStyles = (theme: AppTheme) => {
   return StyleSheet.create({
@@ -31,7 +31,7 @@ const createStyles = (theme: AppTheme) => {
       alignItems: 'center',
       padding: 20,
       backgroundColor: theme.colors.background,
-      height: '100%',
+      flex: 1,
     },
     infoContainer: {
       flex: 1,

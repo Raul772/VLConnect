@@ -1,5 +1,5 @@
 {
-  "name": "VLConnect",
+  "name": "vlconnect",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -13,6 +13,8 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-native-community/slider": "^4.5.7",
+    "@react-navigation/native": "^7.1.16",
+    "@react-navigation/native-stack": "^7.3.23",
     "axios": "^1.9.0",
     "lodash": "^4.17.21",
     "react": "19.0.0",
@@ -20,7 +22,8 @@
     "react-native-base64": "^0.2.1",
     "react-native-dotenv": "^3.4.11",
     "react-native-fs": "^2.20.0",
-    "react-native-safe-area-context": "^5.4.1",
+    "react-native-safe-area-context": "^5.5.2",
+    "react-native-screens": "^4.13.1",
     "react-native-xml2js": "^1.0.3",
     "zustand": "^5.0.5"
   },
