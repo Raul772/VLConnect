@@ -18,7 +18,7 @@ export type PlayerStatus = Partial<{
         date: string;
         description: string;
         filename: string;
-        artwork_url: string | undefined;
+        artwork_url: string;
       };
     };
   };
@@ -36,5 +36,3 @@ export type PlayerStatus = Partial<{
   repeat: boolean;
   isPlaying: boolean;
 }>;
-
-

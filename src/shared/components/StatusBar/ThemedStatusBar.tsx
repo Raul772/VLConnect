@@ -1,8 +1,8 @@
-import {useTheme} from '@/shared/theme/ThemeProvider';
-import {StatusBar} from 'react-native';
+import { useTheme } from '@/shared/theme/ThemeProvider';
+import { StatusBar } from 'react-native';
 
 export default function ThemedStatusBar() {
-  const {mode} = useTheme();
+  const { mode } = useTheme();
 
   const statusBarStyle = mode === 'dark' ? 'light-content' : 'dark-content';
 

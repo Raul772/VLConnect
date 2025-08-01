@@ -1,12 +1,11 @@
-import {VLC_API_PASSWORD} from '@env';
-import {VLCAPI} from '../api/vlcApi';
-import {PlayerStatus} from '../models/PlayerStatus';
+import { VLCAPI } from '../api/vlcApi';
+import { PlayerStatus } from '../models/PlayerStatus';
 
 export class PlayerService {
   constructor(private api: VLCAPI) {}
 
   async getStatus(): Promise<PlayerStatus> {
-    const dto = await this.api.getStatus(this.getApiAuth());
+    const dto = await this.api.getStatus();
 
     if (!dto || typeof dto !== 'object') {
       throw new Error('Invalid response from VLC API when fetching status');
@@ -18,35 +17,36 @@ export class PlayerService {
     };
   }
 
-  async play(): Promise<void> {
-    await this.api.play(this.getApiAuth());
+  async togglePlayPause(): Promise<void> {
+    const status = await this.getStatus();
+
+    if (status.isPlaying) {
+      await this.api.pause();
+    } else {
+      await this.api.play();
+    }
   }
 
   async pause(): Promise<void> {
-    await this.api.pause(this.getApiAuth());
+    await this.api.pause();
   }
 
   async nextTrack(): Promise<void> {
-    await this.api.nextTrack(this.getApiAuth());
+    await this.api.nextTrack();
   }
 
   async previousTrack(): Promise<void> {
-    await this.api.previousTrack(this.getApiAuth());
+    await this.api.previousTrack();
   }
 
   async setVolume(volume: number): Promise<void> {
     if (volume < 0 || volume > 512) {
       throw new Error('Volume must be between 0 and 512');
     }
-    await this.api.setVolume(volume, this.getApiAuth());
+    await this.api.setVolume(volume);
   }
 
-  private getApiAuth() {
-    return {
-      auth: {
-        username: '',
-        password: VLC_API_PASSWORD,
-      },
-    };
+  async getAlbumArtwork(){
+    return await this.api.fetchArtworkAsBase64();
   }
 }

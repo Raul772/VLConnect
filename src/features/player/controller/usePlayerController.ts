@@ -1,17 +1,29 @@
-import {playerService, usecases} from '@/app/di';
+import { createPlayerDependencies } from '@/app/di';
+import { useVlcSettings } from '@/features/settings/hooks/useVLCSettings';
 import throttle from 'lodash/throttle';
-import {useCallback, useMemo} from 'react';
-import {usePlayerStore} from '../store/playerStore';
+import { useCallback, useMemo } from 'react';
+import { usePlayerStore } from '../store/playerStore';
 
 export const usePlayerController = () => {
-  const {togglePlayPause, nextTrack, previousTrack, SetVolume} = usecases;
-
+  const { settings } = useVlcSettings();
+  const { service } = createPlayerDependencies({
+    baseIP: settings.ip,
+    password: settings.password,
+  });
   const setMeta = usePlayerStore(s => s.setMeta);
   const setVolume = usePlayerStore(s => s.setVolume);
 
+  const getAlbumArtwork = useCallback(async () => {
+    try {
+      return await service.getAlbumArtwork();
+    } catch (e) {
+      console.error('Error getting album artwork:', e);
+    }
+  }, [service]);
+
   const handlePlayPause = async () => {
     try {
-      await togglePlayPause.execute();
+      await service.togglePlayPause();
     } catch (e) {
       console.error('Error playing/pausing:', e);
     } finally {
@@ -21,7 +33,7 @@ export const usePlayerController = () => {
 
   const handleNext = async () => {
     try {
-      await nextTrack.execute();
+      await service.nextTrack();
     } catch (e) {
       console.error('Error skipping track:', e);
     } finally {
@@ -31,7 +43,7 @@ export const usePlayerController = () => {
 
   const handlePrevious = async () => {
     try {
-      await previousTrack.execute();
+      await service.previousTrack();
     } catch (e) {
       console.error('Erro backing track:', e);
     } finally {
@@ -40,7 +52,7 @@ export const usePlayerController = () => {
   };
 
   const syncStatus = useCallback(async () => {
-    const data = await playerService.getStatus();
+    const data = await service.getStatus();
     const meta = data.information?.category?.meta;
     const volume = data.volume;
 
@@ -48,12 +60,11 @@ export const usePlayerController = () => {
       title: meta?.title || meta?.filename || 'Desconhecido',
       artist: meta?.artist || 'Desconhecido',
       album: meta?.album || '',
-      artWorkUrl: meta?.artwork_url || null,
+      artWorkUrl: meta?.artwork_url || '',
     });
 
     setVolume((volume && Math.ceil(volume / 2.56)) || 0);
-  }, [setMeta, setVolume]);
-
+  }, [setMeta, setVolume, service]);
 
   const scheduleSyncStatus = useCallback(() => {
     setTimeout(() => {
@@ -67,15 +78,16 @@ export const usePlayerController = () => {
         const VLCVolumeValue = vol * 2.56;
 
         try {
-          await SetVolume.execute(VLCVolumeValue);
+          await service.setVolume(VLCVolumeValue);
         } catch (e) {
           console.error('Error setting volume:', e);
         }
       }, 500),
-    [SetVolume],
+    [service],
   );
 
   return {
+    getAlbumArtwork,
     handlePlayPause,
     handleNext,
     handlePrevious,

@@ -1,25 +1,24 @@
-import {AppTheme} from '@/shared/theme';
-import {useTheme} from '@/shared/theme/ThemeProvider';
+import { AppTheme } from '@/shared/theme';
+import { useTheme } from '@/shared/theme/ThemeProvider';
 import Slider from '@react-native-community/slider';
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {usePlayerController} from '../controller/usePlayerController';
-import {usePlayerStore} from '../store/playerStore';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { usePlayerController } from '../controller/usePlayerController';
+import { usePlayerStore } from '../store/playerStore';
 
 export const VolumeControl = () => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const volume = usePlayerStore(s => s.volume);
   const [localVolume, setLocalVolume] = useState<number>(volume ?? 0);
 
   const isLoud = localVolume > 100;
 
-  const {handleVolumeChange} = usePlayerController();
+  const { handleVolumeChange } = usePlayerController();
   const styles = createStyles(theme, isLoud);
 
   useEffect(() => {
     setLocalVolume(volume);
   }, [volume]);
-
 
   return (
     <View style={styles.container}>

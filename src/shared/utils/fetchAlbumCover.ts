@@ -28,21 +28,14 @@ async function getAlbumMBID(
   }
 }
 
-/**
- * Gera a URL da capa do álbum a partir do MBID
- */
 function getCoverUrlFromMBID(mbid: string): string {
   return `https://coverartarchive.org/release/${mbid}/front-500`;
 }
 
-/**
- * Busca a URL da capa do álbum diretamente via artista e álbum
- */
 export async function getAlbumCover(
   artist: string,
   album: string,
 ): Promise<string> {
-  // Verificar se o album possui um MBID
   const mbid = await getAlbumMBID(artist, album);
   if (!mbid) {
     return '';

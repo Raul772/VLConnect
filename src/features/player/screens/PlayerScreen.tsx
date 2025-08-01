@@ -1,12 +1,12 @@
-import {AppTheme} from '@/shared/theme';
-import {useTheme} from '@/shared/theme/ThemeProvider';
-import {StyleSheet, Text, View} from 'react-native';
-import {NowPlayingInfo} from '../components/NowPlayingInfo';
-import {PlayerControls} from '../components/PlayerControls';
-import {VolumeControl} from '../components/VolumeControl';
+import { AppTheme } from '@/shared/theme';
+import { useTheme } from '@/shared/theme/ThemeProvider';
+import { StyleSheet, Text, View } from 'react-native';
+import { NowPlayingInfo } from '../components/NowPlayingInfo';
+import { PlayerControls } from '../components/PlayerControls';
+import { VolumeControl } from '../components/VolumeControl';
 
 const PlayerScreen = () => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const styles = createStyles(theme);
 
   return (

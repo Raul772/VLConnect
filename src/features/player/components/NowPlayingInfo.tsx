@@ -1,47 +1,54 @@
-import {AppTheme} from '@/shared/theme';
-import {useTheme} from '@/shared/theme/ThemeProvider';
-import {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {usePlayerStore} from '../store/playerStore';
-import {getAlbumCover} from '../utils/fetchAlbumCover';
+import { AppTheme } from '@/shared/theme';
+import { useTheme } from '@/shared/theme/ThemeProvider';
+import FastImage from '@d11/react-native-fast-image';
+import { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { usePlayerController } from '../controller/usePlayerController';
+import { usePlayerStore } from '../store/playerStore';
 
 export const NowPlayingInfo = () => {
-  const {title, artist, album, artWorkUrl} = usePlayerStore();
-  const {theme} = useTheme();
+  const { title, artist, album, artWorkUrl } = usePlayerStore();
+  const { theme } = useTheme();
   const styles = createStyles(theme);
 
+  console.log('renderizou');
+
+  const {
+    current: { getAlbumArtwork },
+  } = useRef(usePlayerController());
   const [artWorkExternal, setArtWorkExternal] = useState<string>('');
 
   useEffect(() => {
-    async function loadArtWork() {
-      setArtWorkExternal(await getAlbumCover(artist, album));
-    }
-    loadArtWork();
-  }, [album, artist, setArtWorkExternal]);
+    // async function loadArtWork() {
+    //   setArtWorkExternal(await getAlbumCover(artist, album));
+    // }
+    // loadArtWork();
+
+    getAlbumArtwork().then((r = '') => {
+      setArtWorkExternal(r);
+    });
+  }, [artist, album, getAlbumArtwork]);
 
   return (
     <View style={styles.container}>
       {artWorkUrl && artWorkExternal ? (
-        <Image
+        <FastImage
           key={artWorkExternal || artWorkUrl}
           source={{
             uri: artWorkExternal,
-            cache: 'force-cache',
+            priority: 'high',
+            cache: 'web',
           }}
           style={styles.artwork}
-          onError={e => console.warn(e.nativeEvent.error)}
         />
       ) : (
-        <Image
+        <FastImage
           key={artWorkExternal || artWorkUrl}
           source={require('@/../assets/images/vlc_artwork.png')}
           style={styles.artwork}
-          onError={e => console.warn(e.nativeEvent.error)}
         />
       )}
-      <Text style={styles.title}>
-        {title || 'Falha na conexão'}
-      </Text>
+      <Text style={styles.title}>{title || 'Falha na conexão'}</Text>
       {album ? <Text style={styles.album}>{album}</Text> : null}
       <Text style={styles.artist}>{artist || 'Verifique conexão com VLC'}</Text>
     </View>

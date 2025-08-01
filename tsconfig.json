@@ -1,6 +1,5 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
-  "include": ["src", "src/@types/env.d.ts"],
   "compilerOptions": {
     "types": ["react-native-dotenv"],
     "baseUrl": "src",
