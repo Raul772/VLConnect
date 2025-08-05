@@ -1,5 +1,5 @@
-import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ThemedStatusBar from './src/shared/components/StatusBar/ThemedStatusBar';
 import { RootNavigation } from './src/shared/navigation/index';

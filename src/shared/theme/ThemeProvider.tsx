@@ -1,6 +1,6 @@
-import React, {createContext, ReactNode, useContext, useState} from 'react';
-import {Appearance} from 'react-native';
-import {AppTheme, darkTheme, lightTheme} from './index';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
+import { Appearance } from 'react-native';
+import { AppTheme, darkTheme, lightTheme } from './index';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -18,11 +18,10 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export const useTheme = () => useContext(ThemeContext);
 
-export const ThemeProvider = ({children}: {children: ReactNode}) => {
+export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const colorScheme = Appearance.getColorScheme();
-  const [mode, setMode] = useState<ThemeMode>(
-    colorScheme === 'dark' ? 'dark' : 'light',
-  );
+
+  const [mode, setMode] = useState<ThemeMode>(colorScheme ?? 'light');
 
   const toggleTheme = () =>
     setMode(prev => (prev === 'light' ? 'dark' : 'light'));
@@ -30,7 +29,7 @@ export const ThemeProvider = ({children}: {children: ReactNode}) => {
   const theme = mode === 'light' ? lightTheme : darkTheme;
 
   return (
-    <ThemeContext.Provider value={{theme, mode, toggleTheme}}>
+    <ThemeContext.Provider value={{ theme, mode, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
